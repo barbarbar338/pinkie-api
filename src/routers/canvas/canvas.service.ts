@@ -11,14 +11,18 @@ export class CanvasService {
         bgColor,
         fontColor,
     }: CreateBannerDto): Buffer {
-        const fontDivider = width / 16 < height ? width / 16 : height;
+        const size = new Canvas(width, height)
+            .setTextFont("128px Tahoma")
+            .measureText(message)
+        const newSize = size.width < width ? 120 : (width / size.width) * 120;
         const canvas = new Canvas(width, height)
             .setColor(bgColor)
             .printRectangle(0, 0, width, height)
             .setColor(fontColor)
-            .setTextFont(fontDivider / (message.length / 32) + "px Arial")
+            .setTextFont(`${newSize}px Tahoma`)
+            .setTextBaseline("middle")
             .setTextAlign("center")
-            .printText(message, width / 2, height / 2 + (height / 100) * 5)
+            .printText(message, width / 2, (height / 100) * 40)
             .toBuffer();
         return canvas;
     }

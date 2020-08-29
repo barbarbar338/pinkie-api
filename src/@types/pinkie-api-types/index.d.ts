@@ -3,4 +3,8 @@ declare module "pinkie-api-types" {
         message?: string;
         [property: string]: unknown;
     }
+    export interface CONFIG {
+        API_VERSION: string;
+        PORT: number;
+    }
 }
