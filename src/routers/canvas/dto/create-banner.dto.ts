@@ -1,18 +1,24 @@
-import { IsDefined, IsNumber, Matches } from "class-validator";
+import { IsDefined, IsNumberString, Matches, IsOptional } from "class-validator";
 
 export class CreateBannerDto {
+
     @IsDefined()
     message: string;
 
-    @IsNumber()
-    width?: number = 750;
+    @IsOptional()
+    @IsNumberString()
+    width?: string;
 
-    @IsNumber()
-    height?: number = 250;
+    @IsOptional()
+    @IsNumberString()
+    height?: string;
 
-    @Matches(/^#[0-9A-F]{6}$/i)
-    bgColor?: string = "#211d1c";
+    @IsOptional()
+    @Matches(/^[0-9A-F]{6}$/i)
+    bgColor?: string;
 
-    @Matches(/^#[0-9A-F]{6}$/i)
-    fontColor?: string = "#ffffff";
+    @IsOptional()
+    @Matches(/^[0-9A-F]{6}$/i)
+    fontColor?: string;
+
 }

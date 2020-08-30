@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Res, Param, Query } from "@nestjs/common";
 import { CanvasService } from "./canvas.service";
 import { APIRes } from "pinkie-api-types";
 import { CreateBannerDto } from "./dto/create-banner.dto";
+import { CreateAchievementDto } from "./dto/create-achievement.dto";
 import { Response } from "express";
 
 @Controller("canvas")
@@ -14,26 +15,35 @@ export class CanvasController {
             message: "Pong!",
         };
     }
-    
-    @Get("banner/:width/:height/:bgColor/:fontColor/create")
-    createBannerFromParams(
-        @Param("width") width: number,
-        @Param("height") height: number,
-        @Param("bgColor") bgColor: string,
-        @Param("fontColor") fontColor: string,
-        @Query("message") message: string,
+
+    @Get("mcachievement")
+    async createAchievementFromQuery(
+        @Query() createAchievementDto: CreateAchievementDto,
         @Res() res: Response
-    ): Response{
-        const createBannerDto: CreateBannerDto = {
-            message,
-            width,
-            height,
-            bgColor: "#" + bgColor,
-            fontColor: "#" + fontColor
-        }
+    ): Promise<Response> {
+        return res
+            .type("image/webp")
+            .send((await this.canvasService.createAchievement(createAchievementDto)));
+    }
+    
+    @Get("banner")
+    createBannerFromQuery(
+        @Query() createBannerDto: CreateBannerDto,
+        @Res() res: Response
+    ): Response {
         return res
             .type("image/webp")
             .send(this.canvasService.createBanner(createBannerDto));
+    }
+
+    @Post("mcachievement")
+    async createAchievement(
+        @Body() createAchievementDto: CreateAchievementDto,
+        @Res() res: Response
+    ): Promise<Response> {
+        return res
+            .type("image/webp")
+            .send((await this.canvasService.createAchievement(createAchievementDto)));
     }
 
     @Post("banner")
