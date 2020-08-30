@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Res, Param, Query } from "@nestjs/common";
+import { Controller, Get, Post, Body, Res, BadRequestException, Query } from "@nestjs/common";
 import { CanvasService } from "./canvas.service";
 import { APIRes } from "pinkie-api-types";
 import { CreateBannerDto } from "./dto/create-banner.dto";
 import { CreateAchievementDto } from "./dto/create-achievement.dto";
 import { Response } from "express";
+import { ICONS } from "src/assets/mcIcons";
 
 @Controller("canvas")
 export class CanvasController {
@@ -21,6 +22,7 @@ export class CanvasController {
         @Query() createAchievementDto: CreateAchievementDto,
         @Res() res: Response
     ): Promise<Response> {
+        if (!Object.values(ICONS).includes(createAchievementDto.icon)) throw new BadRequestException(`icon ${createAchievementDto.icon} not found`)
         return res
             .type("image/webp")
             .send((await this.canvasService.createAchievement(createAchievementDto)));
@@ -41,6 +43,7 @@ export class CanvasController {
         @Body() createAchievementDto: CreateAchievementDto,
         @Res() res: Response
     ): Promise<Response> {
+        if (!Object.values(ICONS).includes(createAchievementDto.icon)) throw new BadRequestException(`icon ${createAchievementDto.icon} not found`)
         return res
             .type("image/webp")
             .send((await this.canvasService.createAchievement(createAchievementDto)));

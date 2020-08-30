@@ -1,15 +1,15 @@
-import { Length, IsDefined, ValidateIf } from "class-validator";
-import { ICONS } from "src/assets/mcIcons";
+import { Length, IsDefined } from "class-validator";
 
 export class CreateAchievementDto {
 
     /*
-        Üzerinde çalışılıyor
-        Sadece belirtilmiş olması yeterli değil.
-        Ayrıca `ICONS` içinde de var olması lazım.
+        Bura `icon`un sadece tanımlanıp tanımlanmadığını kontrol ettik
+        Çünkü nedense Query üzerinde katı bir doğrulama işlemi yapılamıyormuş
+        Ancak bize daha katı bir kontrol lazım 
+        Belirtilen `icon` bizim kalsörümüzün içinde olmayabilir
+        Bunun için `canvar.controller.ts` dosyasında katı bir doğrulama sistemi yaptık
 
-        @ValidateIf(i => Object.values(ICONS).includes(i.icon))
-        Yukarıda belirttiğimiz doğrulama işlemi nedense çalışmıyor.   
+        Class Validation ve Transfor işlerinde yardımları için Ali Furkan Kurt (https://github.com/ali-furkqn)'a sonsuz teşekkürlerimi iletiyorum ❤
     */
     @IsDefined()
     icon: string;
