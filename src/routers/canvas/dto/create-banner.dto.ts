@@ -1,4 +1,5 @@
-import { IsDefined, IsNumberString, Matches, IsOptional } from "class-validator";
+import { IsDefined, IsNumber, Matches, IsOptional } from "class-validator";
+import { Transform } from "class-transformer";
 
 export class CreateBannerDto {
 
@@ -6,12 +7,14 @@ export class CreateBannerDto {
     message: string;
 
     @IsOptional()
-    @IsNumberString()
-    width?: string;
+    @Transform(i => parseInt(i))
+    @IsNumber()
+    width?: number;
 
     @IsOptional()
-    @IsNumberString()
-    height?: string;
+    @Transform(i => parseInt(i))
+    @IsNumber()
+    height?: number;
 
     @IsOptional()
     @Matches(/^[0-9A-F]{6}$/i)
