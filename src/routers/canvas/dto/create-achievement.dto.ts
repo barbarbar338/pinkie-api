@@ -1,7 +1,6 @@
 import { Length, IsDefined } from "class-validator";
 
 export class CreateAchievementDto {
-
     /*
         Bura `icon`un sadece tanımlanıp tanımlanmadığını kontrol ettik
         Çünkü nedense Query üzerinde katı bir doğrulama işlemi yapılamıyormuş
@@ -19,5 +18,4 @@ export class CreateAchievementDto {
 
     @Length(3, 28)
     content: string;
-
 }

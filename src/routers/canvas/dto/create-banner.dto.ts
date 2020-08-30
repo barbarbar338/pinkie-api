@@ -2,7 +2,6 @@ import { IsDefined, IsNumber, Matches, IsOptional } from "class-validator";
 import { Transform } from "class-transformer";
 
 export class CreateBannerDto {
-
     @IsDefined()
     message: string;
 
@@ -23,5 +22,4 @@ export class CreateBannerDto {
     @IsOptional()
     @Matches(/^[0-9A-F]{6}$/i)
     fontColor?: string;
-
 }

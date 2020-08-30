@@ -20,7 +20,7 @@ declare module "pinkie-api-types" {
         togepi: string;
         vulpix: string;
     }
-	export interface MCIcons {
+    export interface MCIcons {
         apple: string;
         arrow: string;
         bed: string;

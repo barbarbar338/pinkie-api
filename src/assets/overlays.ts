@@ -11,5 +11,5 @@ export const OVERLAYS: Overlays = {
     jigglypuff: "jigglypuff",
     squirtle: "squirtle",
     togepi: "togepi",
-    vulpix: "vulpix"
-}
+    vulpix: "vulpix",
+};

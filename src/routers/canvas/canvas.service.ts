@@ -3,7 +3,7 @@ import { CreateBannerDto } from "./dto/create-banner.dto";
 import { CreateAchievementDto } from "./dto/create-achievement.dto";
 import { CreateOverlayDto } from "./dto/create-overlay.dto";
 import { Image, registerFont } from "canvas";
-import { Canvas, resolveImage  } from "canvas-constructor";
+import { Canvas, resolveImage } from "canvas-constructor";
 import { OVERLAYS } from "src/assets/overlays";
 
 /*
@@ -13,41 +13,47 @@ import { OVERLAYS } from "src/assets/overlays";
 */
 import * as Jimp from "jimp";
 
-
-
 registerFont("src/assets/Minecraft.ttf", {
     family: "Minecraft",
 });
 
 @Injectable()
 export class CanvasService {
-
     private async createMinecraftCanvas(): Promise<Canvas> {
-        const background = await resolveImage("src/assets/minecraft_achievement_background.png");
+        const background = await resolveImage(
+            "src/assets/minecraft_achievement_background.png",
+        );
         const canvas = new Canvas(503, 100).printImage(background, 0, 0);
         return canvas;
     }
 
     private async fetchMinecraftImage(name: string): Promise<Image> {
-        const image = await resolveImage(`src/assets/minecraft_item_icons/${name}.png`);
+        const image = await resolveImage(
+            `src/assets/minecraft_item_icons/${name}.png`,
+        );
         return image;
     }
 
-    async createOverlay({ 
+    async createOverlay({
         imageURL,
-        overlay
+        overlay,
     }: CreateOverlayDto): Promise<Buffer> {
-        if (!Object.values(OVERLAYS).includes(overlay)) throw new BadRequestException(`overlay ${overlay} not found`);
-        
+        if (!Object.values(OVERLAYS).includes(overlay))
+            throw new BadRequestException(`overlay ${overlay} not found`);
+
         /*
             Normalde `sharp` adlı modül ile bir `resize` işlemi yapacaktık 
             ancak bilgisayarımdaki bir sorundan dolayı şimdilik `jimp` kullanacağız
             Sorunu çözer çözmez `sharp` ile devam edeceğiz.
         */
-        const image = await Jimp.read(imageURL).catch(err => {
-            throw new BadRequestException(`${imageURL} is not a valid image URL`);
+        const image = await Jimp.read(imageURL).catch(() => {
+            throw new BadRequestException(
+                `${imageURL} is not a valid image URL`,
+            );
         });
-        const overlayImage = await Jimp.read(`src/assets/overlays/${overlay}.png`);
+        const overlayImage = await Jimp.read(
+            `src/assets/overlays/${overlay}.png`,
+        );
         const buffer = await image
             .resize(330, 330)
             .composite(overlayImage, 0, 0)
@@ -55,10 +61,10 @@ export class CanvasService {
         return buffer;
     }
 
-    async createAchievement({ 
-        icon, 
-        title, 
-        content 
+    async createAchievement({
+        icon,
+        title,
+        content,
     }: CreateAchievementDto): Promise<Buffer> {
         const image = await this.fetchMinecraftImage(icon);
         const buffer = (await this.createMinecraftCanvas())
@@ -82,7 +88,7 @@ export class CanvasService {
     }: CreateBannerDto): Buffer {
         const size = new Canvas(width, height)
             .setTextFont("128px Tahoma")
-            .measureText(message)
+            .measureText(message);
         const newSize = size.width < width ? 120 : (width / size.width) * 120;
         const canvas = new Canvas(width, height)
             .setColor(`#${bgColor}`)
