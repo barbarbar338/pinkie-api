@@ -7,6 +7,19 @@ declare module "pinkie-api-types" {
         API_VERSION: string;
         PORT: number;
     }
+    export interface Overlays {
+        balance: string;
+        bravery: string;
+        brilliance: string;
+        charmender: string;
+        ducklett: string;
+        espeon: string;
+        gyarados: string;
+        jigglypuff: string;
+        squirtle: string;
+        togepi: string;
+        vulpix: string;
+    }
 	export interface MCIcons {
         apple: string;
         arrow: string;

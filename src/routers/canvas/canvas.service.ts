@@ -1,8 +1,19 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, BadRequestException } from "@nestjs/common";
 import { CreateBannerDto } from "./dto/create-banner.dto";
 import { CreateAchievementDto } from "./dto/create-achievement.dto";
+import { CreateOverlayDto } from "./dto/create-overlay.dto";
 import { Image, registerFont } from "canvas";
 import { Canvas, resolveImage  } from "canvas-constructor";
+import { OVERLAYS } from "src/assets/overlays";
+
+/*
+    Normalde `sharp` adlı modül ile bir `resize` işlemi yapacaktık 
+    ancak bilgisayarımdaki bir sorundan dolayı şimdilik `jimp` kullanacağız
+    Sorunu çözer çözmez `sharp` ile devam edeceğiz.
+*/
+import * as Jimp from "jimp";
+
+
 
 registerFont("src/assets/Minecraft.ttf", {
     family: "Minecraft",
@@ -20,6 +31,28 @@ export class CanvasService {
     private async fetchMinecraftImage(name: string): Promise<Image> {
         const image = await resolveImage(`src/assets/minecraft_item_icons/${name}.png`);
         return image;
+    }
+
+    async createOverlay({ 
+        imageURL,
+        overlay
+    }: CreateOverlayDto): Promise<Buffer> {
+        if (!Object.values(OVERLAYS).includes(overlay)) throw new BadRequestException(`overlay ${overlay} not found`);
+        
+        /*
+            Normalde `sharp` adlı modül ile bir `resize` işlemi yapacaktık 
+            ancak bilgisayarımdaki bir sorundan dolayı şimdilik `jimp` kullanacağız
+            Sorunu çözer çözmez `sharp` ile devam edeceğiz.
+        */
+        const image = await Jimp.read(imageURL).catch(err => {
+            throw new BadRequestException(`${imageURL} is not a valid image URL`);
+        });
+        const overlayImage = await Jimp.read(`src/assets/overlays/${overlay}.png`);
+        const buffer = await image
+            .resize(330, 330)
+            .composite(overlayImage, 0, 0)
+            .getBufferAsync(Jimp.MIME_PNG);
+        return buffer;
     }
 
     async createAchievement({ 

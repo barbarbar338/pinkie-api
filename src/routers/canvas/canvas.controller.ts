@@ -3,8 +3,10 @@ import { CanvasService } from "./canvas.service";
 import { APIRes } from "pinkie-api-types";
 import { CreateBannerDto } from "./dto/create-banner.dto";
 import { CreateAchievementDto } from "./dto/create-achievement.dto";
+import { CreateOverlayDto } from "./dto/create-overlay.dto";
 import { Response } from "express";
 import { ICONS } from "src/assets/mcIcons";
+
 
 @Controller("canvas")
 export class CanvasController {
@@ -15,6 +17,17 @@ export class CanvasController {
         return {
             message: "Pong!",
         };
+    }
+
+    @Get("overlay")
+    async createOverlayFromQuery(
+        @Query() createOverlayDto: CreateOverlayDto,
+        @Res() res: Response
+    ): Promise<Response> {
+        const buffer = await this.canvasService.createOverlay(createOverlayDto);
+        return res
+            .type("image/webp")
+            .send(buffer);
     }
 
     @Get("mcachievement")
