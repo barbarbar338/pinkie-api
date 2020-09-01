@@ -33,21 +33,30 @@ export class CanvasService {
         imageURL,
         overlay,
     }: CreateOverlayDto): Promise<Buffer> {
-        if (!Object.values(OVERLAYS).includes(overlay)) throw new BadRequestException(`overlay ${overlay} not found`);
-        const imageBuffer = await fetch(imageURL).then(res => res.buffer()).catch(() => {
-            throw new BadRequestException(`${imageURL} is not a valid image URL`);
-        });
+        if (!Object.values(OVERLAYS).includes(overlay))
+            throw new BadRequestException(`overlay ${overlay} not found`);
+        const imageBuffer = await fetch(imageURL)
+            .then(res => res.buffer())
+            .catch(() => {
+                throw new BadRequestException(
+                    `${imageURL} is not a valid image URL`,
+                );
+            });
         const resizedBuffer = await sharp(imageBuffer)
             .resize(330, 330)
             .png({
-                quality: 70
+                quality: 70,
             })
             .toBuffer()
             .catch(() => {
-                throw new BadRequestException(`${imageURL} is not a valid image URL`);
-            })
+                throw new BadRequestException(
+                    `${imageURL} is not a valid image URL`,
+                );
+            });
         const resizedImage = await resolveImage(resizedBuffer);
-        const overlayImage = await resolveImage(`src/assets/overlays/${overlay}.png`);
+        const overlayImage = await resolveImage(
+            `src/assets/overlays/${overlay}.png`,
+        );
         const buffer = new Canvas(330, 330)
             .printImage(resizedImage, 0, 0)
             .printImage(overlayImage, 0, 0)
