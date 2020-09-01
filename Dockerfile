@@ -1,5 +1,6 @@
 FROM node:current-alpine
 WORKDIR /app
+RUN apt-get update || : && apt-get install python -y
 COPY package.json .
 COPY yarn.lock .
 RUN yarn install
