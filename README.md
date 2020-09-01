@@ -2,7 +2,7 @@
 - Pinkie API hizmeti sürüm 2 yakın zamanda hizmet verecektir! 👀
 - Gelişmeler ve kaynak kodları için burayı takip edebilirsiniz. ✨
 
-# Contributing (Katkı Bulunma)
+# Contributing (Katkı Bulunma) ✅
 - Aklınızda herhangi bir fikir varsa bir Pull Request açabilir veya bir Issue açarak bu fikri belirtebilirsiniz. 🔥
 - Bir eksik vb. görürseniz lütfen projeyi indirip o eksiği kapatıp sadece kendinizin kullanabileceği şekilde bir hosting sistemine koymayınız, herkese yardımcı olmak amacıyla bir Pull Request veya Issue açınız. ❤
 

@@ -9,7 +9,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "node dist/main",
+    "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -25,6 +25,8 @@
     "@nestjs/core": "^7.0.0",
     "@nestjs/platform-express": "^7.0.0",
     "@nestjs/platform-fastify": "^7.4.3",
+    "@types/node-fetch": "^2.5.7",
+    "@types/sharp": "^0.25.1",
     "canvas": "^2.6.1",
     "canvas-constructor": "^4.1.0",
     "class-transformer": "^0.3.1",
@@ -32,12 +34,13 @@
     "dotenv": "^8.2.0",
     "fastify-helmet": "^5.0.1",
     "figlet": "^1.5.0",
-    "jimp": "^0.16.1",
     "morgan": "^1.10.0",
     "nestjs-rate-limit": "^1.0.6",
+    "node-fetch": "^2.6.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.5.4"
+    "rxjs": "^6.5.4",
+    "sharp": "^0.26.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",

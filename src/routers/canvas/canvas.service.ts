@@ -5,13 +5,8 @@ import { CreateOverlayDto } from "./dto/create-overlay.dto";
 import { Image, registerFont } from "canvas";
 import { Canvas, resolveImage } from "canvas-constructor";
 import { OVERLAYS } from "src/assets/overlays";
-
-/*
-    Normalde `sharp` adlı modül ile bir `resize` işlemi yapacaktık 
-    ancak bilgisayarımdaki bir sorundan dolayı şimdilik `jimp` kullanacağız
-    Sorunu çözer çözmez `sharp` ile devam edeceğiz.
-*/
-import * as Jimp from "jimp";
+import * as sharp from "sharp";
+import fetch from "node-fetch";
 
 registerFont("src/assets/Minecraft.ttf", {
     family: "Minecraft",
@@ -38,26 +33,25 @@ export class CanvasService {
         imageURL,
         overlay,
     }: CreateOverlayDto): Promise<Buffer> {
-        if (!Object.values(OVERLAYS).includes(overlay))
-            throw new BadRequestException(`overlay ${overlay} not found`);
-
-        /*
-            Normalde `sharp` adlı modül ile bir `resize` işlemi yapacaktık 
-            ancak bilgisayarımdaki bir sorundan dolayı şimdilik `jimp` kullanacağız
-            Sorunu çözer çözmez `sharp` ile devam edeceğiz.
-        */
-        const image = await Jimp.read(imageURL).catch(() => {
-            throw new BadRequestException(
-                `${imageURL} is not a valid image URL`,
-            );
+        if (!Object.values(OVERLAYS).includes(overlay)) throw new BadRequestException(`overlay ${overlay} not found`);
+        const imageBuffer = await fetch(imageURL).then(res => res.buffer()).catch(() => {
+            throw new BadRequestException(`${imageURL} is not a valid image URL`);
         });
-        const overlayImage = await Jimp.read(
-            `src/assets/overlays/${overlay}.png`,
-        );
-        const buffer = await image
+        const resizedBuffer = await sharp(imageBuffer)
             .resize(330, 330)
-            .composite(overlayImage, 0, 0)
-            .getBufferAsync(Jimp.MIME_PNG);
+            .png({
+                quality: 70
+            })
+            .toBuffer()
+            .catch(() => {
+                throw new BadRequestException(`${imageURL} is not a valid image URL`);
+            })
+        const resizedImage = await resolveImage(resizedBuffer);
+        const overlayImage = await resolveImage(`src/assets/overlays/${overlay}.png`);
+        const buffer = new Canvas(330, 330)
+            .printImage(resizedImage, 0, 0)
+            .printImage(overlayImage, 0, 0)
+            .toBuffer();
         return buffer;
     }
 
