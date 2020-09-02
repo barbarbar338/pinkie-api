@@ -1,6 +1,7 @@
 # Pinkie API 🦄
-- Pinkie API hizmeti sürüm 2 yakın zamanda hizmet verecektir! 👀
+- Pinkie API hizmeti sürüm 2 hizmetinizdedir! 👀
 - Gelişmeler ve kaynak kodları için burayı takip edebilirsiniz. ✨
+- Mevcut API'ler hakında bilgi için https://api.bariscodes.me/docs sayfasını ziyaret edin! 👍
 
 # Contributing (Katkı Bulunma) ✅
 - Aklınızda herhangi bir fikir varsa bir Pull Request açabilir veya bir Issue açarak bu fikri belirtebilirsiniz. 🔥

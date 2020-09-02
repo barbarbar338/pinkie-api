@@ -13,4 +13,17 @@ export class DocsController {
     @Get()
     @Render("index.handlebars")
     returnIndex(): void {}
+
+    @Get("ascii")
+    @Render("ascii.handlebars")
+    returnAscii(): void {}
+
+    @Get("canvas")
+    @Render("canvas.handlebars")
+    returnCanvas(): void {}
+
+    @Get("swear")
+    @Render("swear.handlebars")
+    returnSwear(): void {}
+
 }
