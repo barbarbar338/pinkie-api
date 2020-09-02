@@ -1,4 +1,4 @@
-import { IsDefined, IsNumber, Matches, IsOptional } from "class-validator";
+import { IsDefined, IsNumber, Matches, IsOptional, Min, Max } from "class-validator";
 import { Transform } from "class-transformer";
 
 export class CreateBannerDto {
@@ -8,11 +8,15 @@ export class CreateBannerDto {
     @IsOptional()
     @Transform(i => parseInt(i))
     @IsNumber()
+    @Min(100)
+    @Max(2500)
     width?: number;
 
     @IsOptional()
     @Transform(i => parseInt(i))
     @IsNumber()
+    @Min(100)
+    @Max(2500)
     height?: number;
 
     @IsOptional()
