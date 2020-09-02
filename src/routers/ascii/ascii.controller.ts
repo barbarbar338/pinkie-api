@@ -1,4 +1,4 @@
-import { Controller, Body, Post, Get } from "@nestjs/common";
+import { Controller, Body, Post, Get, Query } from "@nestjs/common";
 import { AsciiService } from "./ascii.service";
 import { ConvertDto } from "./dto/convert.dto";
 import { APIRes } from "pinkie-api-types";
@@ -15,8 +15,17 @@ export class AsciiController {
         };
     }
 
-    @Post("convert")
-    convertMessage(@Body() convertDto: ConvertDto): APIRes {
+    @Get()
+    convertMessageFromQuery(
+        @Query() convertDto: ConvertDto
+    ): APIRes {
+        return this.asciiService.convertMessage(convertDto);
+    }
+
+    @Post()
+    convertMessage(
+        @Body() convertDto: ConvertDto
+    ): APIRes {
         return this.asciiService.convertMessage(convertDto);
     }
 }
