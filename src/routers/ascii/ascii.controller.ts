@@ -2,8 +2,9 @@ import { Controller, Body, Post, Get } from "@nestjs/common";
 import { AsciiService } from "./ascii.service";
 import { ConvertDto } from "./dto/convert.dto";
 import { APIRes } from "pinkie-api-types";
+import config from "src/config";
 
-@Controller("ascii")
+@Controller(config.API_VERSION + "/ascii")
 export class AsciiController {
     constructor(private readonly asciiService: AsciiService) {}
 

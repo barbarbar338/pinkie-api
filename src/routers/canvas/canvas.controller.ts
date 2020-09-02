@@ -14,8 +14,9 @@ import { CreateAchievementDto } from "./dto/create-achievement.dto";
 import { CreateOverlayDto } from "./dto/create-overlay.dto";
 import { Response } from "express";
 import { ICONS } from "src/assets/mcIcons";
+import config from "src/config";
 
-@Controller("canvas")
+@Controller(config.API_VERSION + "/canvas")
 export class CanvasController {
     constructor(private readonly canvasService: CanvasService) {}
 

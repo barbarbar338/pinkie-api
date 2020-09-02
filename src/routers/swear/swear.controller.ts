@@ -2,8 +2,9 @@ import { Controller, Body, Get, Post } from "@nestjs/common";
 import { SwearService } from "./swear.service";
 import { CheckMessageDto } from "./dto/check-message.dto";
 import { APIRes } from "pinkie-api-types";
+import config from "src/config";
 
-@Controller("swear")
+@Controller(config.API_VERSION + "/swear")
 export class SwearController {
     constructor(private readonly swearService: SwearService) {}
 
