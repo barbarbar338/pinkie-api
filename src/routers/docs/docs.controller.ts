@@ -3,11 +3,14 @@ import { APIRes } from "pinkie-api-types";
 
 @Controller("docs")
 export class DocsController {
-    @Get()
-    @Render("index.handlebars")
+    @Get("/ping")
     replyPing(): APIRes {
         return {
             message: "Pong!",
         };
     }
+
+    @Get()
+    @Render("index.handlebars")
+    returnIndex(): void {}
 }
