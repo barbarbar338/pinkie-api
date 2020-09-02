@@ -1,0 +1,9 @@
+.code {
+    background: #111111; 
+    overflow: auto;
+    width: auto;
+    padding: .2em .6em;
+    border:solid #111111;
+    border-width:.2rem;
+    border-radius: .4rem;
+}

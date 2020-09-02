@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="public/css/bootstrap.css">
         <link rel="stylesheet" href="public/css/preloader.css">
         <link rel="stylesheet" href="public/css/sidenav.css">
+        <link rel="stylesheet" href="public/css/code.css">
         <link rel="icon" href="public/img/favicon.png" type="image/x-icon">
         <script src="public/js/jquery.js" defer></script>
         <script src="public/js/popper.js" defer></script>
@@ -25,6 +26,9 @@
                     <a href="#tanitim" class="list-group-item list-group-item-action bg-light">Tanıtım</a>
                     <a href="#contributing" class="list-group-item list-group-item-action bg-light">Katkıda Bulunma</a>
                     <a href="#uyari" class="list-group-item list-group-item-action bg-light">Uyarı</a>
+                    <a href="#ascii" class="list-group-item list-group-item-action bg-light">Ascii API</a>
+                    <a href="#canvas" class="list-group-item list-group-item-action bg-light">Canvas API</a>
+                    <a href="#swear" class="list-group-item list-group-item-action bg-light">Küfür API</a>
                 </div>
             </div>
             <div id="page-content-wrapper">
@@ -83,6 +87,99 @@
                             <li>Ana dizinde ve <code>test</code> klasörü içine bulunan herhangi bir dosyayı ve <code>src/main.ts</code> dosyasını değiştirmemeye çalışın. 👍</li>
                             <li>Herhangi bir Pull Request'ten önce konsolda <code>npm run format</code> komutunu çalıştırmayı unutmayın. 🧹</li>
                         </ul>
+                    </div>
+                    <hr>
+                    <div id="ascii">
+                        <h1 class="mt-4">Ascii API 💡</h1>
+                        <h3 class="mt-4">Ping (GET)</h3>
+                        <ul>
+                            <li>Metot: <code>GET</code></li>
+                            <li>URL: <code>https://api.bariscodes.me/v2/ascii/ping</code></li>
+                        </ul>
+                        <h6>Örnek Girdi</h6>
+                        <div class="code">
+<table><tr><td><pre style="margin: 0; line-height: 125%">1
+2
+3
+4
+5</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #fb660a; font-weight: bold">import</span> <span style="color: #ffffff">fetch</span> <span style="color: #ffffff">from</span> <span style="color: #0086d2">&quot;node-fetch&quot;</span><span style="color: #ffffff">;</span>
+
+<span style="color: #ffffff">fetch(</span><span style="color: #0086d2">&quot;https://api.bariscodes.me/v2/ascii/ping&quot;</span><span style="color: #ffffff">).then(res</span> <span style="color: #ffffff">=&gt;</span> <span style="color: #ffffff">res.json()).then(body</span> <span style="color: #ffffff">=&gt;</span> <span style="color: #ffffff">{</span>
+    <span style="color: #ffffff">console.log(body);</span>
+<span style="color: #ffffff">});</span>
+</pre></td></tr></table>
+                        </div><br>
+                        <h6>Örnek Çıktı</h6>
+                        <div class="code">
+<table><tr><td><pre style="margin: 0; line-height: 125%">1
+2
+3</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #ffffff">{</span>
+    <span style="color: #fb660a; font-weight: bold">&quot;message&quot;</span><span style="color: #ffffff">:</span> <span style="color: #0086d2">&quot;Pong!&quot;</span>
+<span style="color: #ffffff">}</span>
+</pre></td></tr></table>
+                        </div>
+                    </div>
+                    <hr>
+                    <div id="canvas">
+                        <h1 class="mt-4">Canvas API 🖼️</h1>
+                        <h3 class="mt-4">Ping (GET)</h3>
+                        <ul>
+                            <li>Metot: <code>GET</code></li>
+                            <li>URL: <code>https://api.bariscodes.me/v2/canvas/ping</code></li>
+                        </ul>
+                        <h6>Örnek Girdi</h6>
+                        <div class="code">
+<table><tr><td><pre style="margin: 0; line-height: 125%">1
+2
+3
+4
+5</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #fb660a; font-weight: bold">import</span> <span style="color: #ffffff">fetch</span> <span style="color: #ffffff">from</span> <span style="color: #0086d2">&quot;node-fetch&quot;</span><span style="color: #ffffff">;</span>
+
+<span style="color: #ffffff">fetch(</span><span style="color: #0086d2">&quot;https://api.bariscodes.me/v2/canvas/ping&quot;</span><span style="color: #ffffff">).then(res</span> <span style="color: #ffffff">=&gt;</span> <span style="color: #ffffff">res.json()).then(body</span> <span style="color: #ffffff">=&gt;</span> <span style="color: #ffffff">{</span>
+    <span style="color: #ffffff">console.log(body);</span>
+<span style="color: #ffffff">});</span>
+</pre></td></tr></table>
+                        </div><br>
+                        <h6>Örnek Çıktı</h6>
+                        <div class="code">
+<table><tr><td><pre style="margin: 0; line-height: 125%">1
+2
+3</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #ffffff">{</span>
+    <span style="color: #fb660a; font-weight: bold">&quot;message&quot;</span><span style="color: #ffffff">:</span> <span style="color: #0086d2">&quot;Pong!&quot;</span>
+<span style="color: #ffffff">}</span>
+</pre></td></tr></table>
+                        </div>
+                    </div>
+                    <hr>
+                    <div id="swear">
+                        <h1 class="mt-4">Küfür API 🤬</h1>
+                        <h3 class="mt-4">Ping (GET)</h3>
+                        <ul>
+                            <li>Metot: <code>GET</code></li>
+                            <li>URL: <code>https://api.bariscodes.me/v2/swear/ping</code></li>
+                        </ul>
+                        <h6>Örnek Girdi</h6>
+                        <div class="code">
+<table><tr><td><pre style="margin: 0; line-height: 125%">1
+2
+3
+4
+5</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #fb660a; font-weight: bold">import</span> <span style="color: #ffffff">fetch</span> <span style="color: #ffffff">from</span> <span style="color: #0086d2">&quot;node-fetch&quot;</span><span style="color: #ffffff">;</span>
+
+<span style="color: #ffffff">fetch(</span><span style="color: #0086d2">&quot;https://api.bariscodes.me/v2/swear/ping&quot;</span><span style="color: #ffffff">).then(res</span> <span style="color: #ffffff">=&gt;</span> <span style="color: #ffffff">res.json()).then(body</span> <span style="color: #ffffff">=&gt;</span> <span style="color: #ffffff">{</span>
+    <span style="color: #ffffff">console.log(body);</span>
+<span style="color: #ffffff">});</span>
+</pre></td></tr></table>
+                        </div><br>
+                        <h6>Örnek Çıktı</h6>
+                        <div class="code">
+<table><tr><td><pre style="margin: 0; line-height: 125%">1
+2
+3</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #ffffff">{</span>
+    <span style="color: #fb660a; font-weight: bold">&quot;message&quot;</span><span style="color: #ffffff">:</span> <span style="color: #0086d2">&quot;Pong!&quot;</span>
+<span style="color: #ffffff">}</span>
+</pre></td></tr></table>
+                        </div>
                     </div>
                 </div>
             </div>
