@@ -36,7 +36,7 @@ async function bootstrap() {
 
         app.setGlobalPrefix(config.API_VERSION);
     */
-   
+
     app.useStaticAssets({
         root: process.cwd() + "/src/public",
         prefix: "/public/",

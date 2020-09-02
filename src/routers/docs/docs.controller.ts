@@ -3,7 +3,6 @@ import { APIRes } from "pinkie-api-types";
 
 @Controller("docs")
 export class DocsController {
-
     @Get()
     @Render("index.handlebars")
     replyPing(): APIRes {

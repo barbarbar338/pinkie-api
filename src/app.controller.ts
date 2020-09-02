@@ -3,7 +3,6 @@ import { APIRes } from "pinkie-api-types";
 
 @Controller()
 export class AppController {
-
     @Get("ping")
     replyPing(): APIRes {
         return {
@@ -14,5 +13,4 @@ export class AppController {
     @Get()
     @Redirect("/docs", 302)
     redirectToDocs(): void {}
-
 }
