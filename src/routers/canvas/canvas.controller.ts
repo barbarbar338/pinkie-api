@@ -94,12 +94,13 @@ export class CanvasController {
     }
 
     @Get("rankcard")
-    createRankCard(
+    async createRankCard(
         @Query() createRankCardDTO: CreateRankCardDTO,
         @Res() res: Response,
-    ): Response {
+    ): Promise<Response> {
+        const buffer = await this.canvasService.createRankCard(createRankCardDTO);
         return res
             .type("image/webp")
-            .send(this.canvasService.createRankCard(createRankCardDTO));
+            .send(buffer);
     }
 }
