@@ -15,6 +15,7 @@ import { CreateOverlayDto } from "./dto/create-overlay.dto";
 import { Response } from "express";
 import { ICONS } from "src/assets/mcIcons";
 import config from "src/config";
+import { CreateRankCardDTO } from "./dto/create-rank-card.dto";
 
 @Controller(config.API_VERSION + "/canvas")
 export class CanvasController {
@@ -90,5 +91,15 @@ export class CanvasController {
         return res
             .type("image/webp")
             .send(this.canvasService.createBanner(createBannerDto));
+    }
+
+    @Get("rankcard")
+    createRankCard(
+        @Query() createRankCardDTO: CreateRankCardDTO,
+        @Res() res: Response,
+    ): Response {
+        return res
+            .type("image/webp")
+            .send(this.canvasService.createRankCard(createRankCardDTO));
     }
 }
