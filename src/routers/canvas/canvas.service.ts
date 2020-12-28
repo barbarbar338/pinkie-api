@@ -44,7 +44,7 @@ export class CanvasService {
     }: CreateRankCardDTO): Promise<Buffer> {
         let fix = 0;
         const avatar = await resolveImage(avatarURL);
-        const percent = Math.floor((100 * xp) / xpToLevel + xp);
+        const percent = Math.floor((100 * xp) / xpToLevel);
         const barWidth = Math.floor((635 * percent) / 100);
         const defaultColor = color ? `#${color}` : "#248f24";
         const buffer = await new Canvas(934, 282)
