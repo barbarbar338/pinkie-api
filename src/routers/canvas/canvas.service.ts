@@ -7,18 +7,15 @@ import { Canvas, resolveImage } from "canvas-constructor";
 import { OVERLAYS } from "src/assets/overlays";
 import * as sharp from "sharp";
 import fetch from "node-fetch";
-
-import { createCanvas, loadImage } from "canvas";
-import { readFileSync } from "fs";
 import { CreateRankCardDTO } from "./dto/create-rank-card.dto";
 
-const icons = {
-    online: readFileSync("src/assets/status_icons/online.png"),
-    invisible: readFileSync("src/assets/status_icons/offline.png"),
-    offline: readFileSync("src/assets/status_icons/offline.png"),
-    dnd: readFileSync("src/assets/status_icons/dnd.png"),
-    idle: readFileSync("src/assets/status_icons/idle.png")
-};
+const statusColors = {
+    online: "#00ff00",
+    invisible: "#d1d1e0",
+    offline: "#d1d1e0",
+    dnd: "#ff3300",
+    idle: "#ffff00"
+}
 
 registerFont("src/assets/Minecraft.ttf", {
     family: "Minecraft",
@@ -35,79 +32,51 @@ export class CanvasService {
         status,
         tag
     }: CreateRankCardDTO): Promise<Buffer> {
-        const canvas = createCanvas(750, 240);
-        const ctx = canvas.getContext("2d");
-        const avatar = await loadImage(avatarURL);
-        const statusIcon = await loadImage(icons[status]);
-        ctx.fillStyle = "rgba(0, 0, 0, 0.40)";
-        ctx.fill();
-        ctx.fillRect(25, 20, 700, 170);
-        ctx.fillStyle = "rgba(0, 0, 0, 0.30)";
-        ctx.fill();
-        ctx.fillRect(0, 0, 750, 210);
-        ctx.beginPath();
-        ctx.fillStyle = "#999999";
-        ctx.arc(
-            275.5,
-            154.75,
-            18.5,
-            1.5 * Math.PI,
-            0.5 * Math.PI,
-            true,
-        );
-        ctx.fill();
-        ctx.fillRect(275.5, 136.15, 400, 37.5);
-        ctx.arc(
-            675.5,
-            154.75,
-            18.75,
-            1.5 * Math.PI,
-            0.5 * Math.PI,
-            false,
-        );
-        ctx.fill();
-        ctx.beginPath();
-        ctx.fillStyle = "#3af2ec";
-        ctx.arc(
-            275.5,
-            154.75,
-            18.5,
-            1.5 * Math.PI,
-            0.5 * Math.PI,
-            true,
-        );
-        ctx.fill();
-        ctx.fillRect(275.5, 136.25, xp * 1.6, 37.5);
-        ctx.arc(
-            275.5 + (xp * 1.6),
-            154,
-            18.75,
-            1.5 * Math.PI,
-            0.5 * Math.PI,
-            false,
-        );
-        ctx.fill();
-        ctx.fillStyle = "#3af2ec";
-        ctx.font = "28px Impact";
-        ctx.textAlign = "right";
-        ctx.fillText(`Rank #${position} | Level ${level}`, 690, 60);
-        ctx.font = "20px Impact";
-        ctx.textAlign = "right";
-        ctx.fillText(`${xp} / ${xpToLevel} XP`, 690, 120);
-        ctx.fillStyle = "#bfbfbf";
-        ctx.font = "28px Impact";
-        ctx.textAlign = "left";
-        ctx.fillText(tag, 270, 120);
-        ctx.beginPath();
-        ctx.lineWidth = 8;
-        ctx.fill();
-        ctx.lineWidth = 8;
-        ctx.arc(110, 105, 70, 0, Math.PI * 2, true);
-        ctx.drawImage(statusIcon, 135, 135, 50, 50);
-        ctx.clip();
-        ctx.drawImage(avatar, 40, 35, 140, 140);
-        ctx.drawImage(statusIcon, 135, 135, 50, 50);
-        return canvas.toBuffer();
+        let fix = 0;
+        const avatar = await resolveImage(avatarURL)
+        const percent = Math.floor((xpToLevel + xp * 100) / xpToLevel);
+        const width = Math.floor((635 * percent) / 100);
+        console.log(percent, width);
+        const buffer = await new Canvas(934, 282)
+            .setColor("#23272A")
+            .printRoundedRectangle(0, 0, 934, 282, 10)
+            .setColor("#16181A")
+            .printRoundedRectangle(20, 37, 890, 211, 4)
+            .printCircularImage(avatar, 123, 143, 80)
+            .setStrokeWidth(4)
+            .setStroke("#000000")
+            .stroke()
+            .printCircle(185, 195, 20)
+            .setStrokeWidth(8)
+            .stroke()
+            .setColor(statusColors[status])
+            .fill()
+            .setColor("#484b4e")
+            .printRoundedRectangle(256, 179, 635, 34, 100)
+            .setStrokeWidth(2)
+            .stroke()
+            .setColor("#248f24")
+            .printRoundedRectangle(256, 180, width, 32, 100)
+            .setColor("#FEFEFE")
+            .setTextFont("24px Sans")
+            .setTextAlign("start")
+            .measureText(tag, ({ width }) => fix = width + 350)
+            .printText(tag, 260, 165)
+            .setTextAlign("right")
+            .setColor("#7F8384")
+            .setTextFont("24px Sans")
+            .measureText("/ " + xpToLevel + " XP", ({ width }) => fix = 870 - width)
+            .printText("/ " + xpToLevel + " XP", 880, 165)
+            .setColor("#FEFEFE")
+            .printText(xp.toString(), fix, 165)
+            .setTextFont("24px Sans")
+            .setColor("#FEFEFE")
+            .printText(level + " Level", 640, 205)
+            .setColor("#2ECC71")
+            .setTextAlign("right")
+            .printText(`Rank: #${position}`, 870, 90)
+            .toBufferAsync();
+        return buffer;
     }
 
     private async createMinecraftCanvas(): Promise<Canvas> {
