@@ -16,16 +16,12 @@ export class AsciiController {
     }
 
     @Get()
-    convertMessageFromQuery(
-        @Query() convertDto: ConvertDto
-    ): APIRes {
+    convertMessageFromQuery(@Query() convertDto: ConvertDto): APIRes {
         return this.asciiService.convertMessage(convertDto);
     }
 
     @Post()
-    convertMessage(
-        @Body() convertDto: ConvertDto
-    ): APIRes {
+    convertMessage(@Body() convertDto: ConvertDto): APIRes {
         return this.asciiService.convertMessage(convertDto);
     }
 }

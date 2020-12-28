@@ -98,9 +98,9 @@ export class CanvasController {
         @Query() createRankCardDTO: CreateRankCardDTO,
         @Res() res: Response,
     ): Promise<Response> {
-        const buffer = await this.canvasService.createRankCard(createRankCardDTO);
-        return res
-            .type("image/webp")
-            .send(buffer);
+        const buffer = await this.canvasService.createRankCard(
+            createRankCardDTO,
+        );
+        return res.type("image/webp").send(buffer);
     }
 }

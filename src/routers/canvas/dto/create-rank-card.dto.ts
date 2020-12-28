@@ -1,8 +1,13 @@
-import { IsDefined, IsUrl, IsNumber } from "class-validator";
+import {
+    IsDefined,
+    IsUrl,
+    IsNumber,
+    IsOptional,
+    Matches,
+} from "class-validator";
 import { Transform } from "class-transformer";
 
 export class CreateRankCardDTO {
-
     @IsDefined()
     @Transform(i => parseInt(i))
     @IsNumber()
@@ -31,4 +36,8 @@ export class CreateRankCardDTO {
 
     @IsUrl()
     avatarURL: string;
+
+    @IsOptional()
+    @Matches(/^[0-9A-F]{6}$/i)
+    color?: string;
 }

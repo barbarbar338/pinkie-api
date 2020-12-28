@@ -25,5 +25,4 @@ export class DocsController {
     @Get("swear")
     @Render("swear.handlebars")
     returnSwear(): void {}
-
 }

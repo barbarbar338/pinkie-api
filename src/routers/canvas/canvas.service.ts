@@ -14,8 +14,8 @@ const statusColors = {
     invisible: "#d1d1e0",
     offline: "#d1d1e0",
     dnd: "#ff3300",
-    idle: "#ffff00"
-}
+    idle: "#ffff00",
+};
 
 registerFont("src/assets/Minecraft.ttf", {
     family: "Minecraft",
@@ -23,6 +23,15 @@ registerFont("src/assets/Minecraft.ttf", {
 
 @Injectable()
 export class CanvasService {
+    private formatNumber(longNumber: number, defaultDecimal = 2): string {
+        let length = longNumber.toString().length;
+        const decimal = Math.pow(10, defaultDecimal);
+        length -= length % 3;
+        const outputNum =
+            Math.round((longNumber * decimal) / Math.pow(10, length)) / decimal;
+        const short = " kMGTPE"[length / 3];
+        return outputNum + short;
+    }
     public async createRankCard({
         xp,
         level,
@@ -30,13 +39,14 @@ export class CanvasService {
         position,
         avatarURL,
         status,
-        tag
+        tag,
+        color,
     }: CreateRankCardDTO): Promise<Buffer> {
         let fix = 0;
-        const avatar = await resolveImage(avatarURL)
-        const percent = Math.floor((xpToLevel + xp * 100) / xpToLevel);
-        const width = Math.floor((635 * percent) / 100);
-        console.log(percent, width);
+        const avatar = await resolveImage(avatarURL);
+        const percent = Math.floor((100 * xp) / xpToLevel + xp);
+        const barWidth = Math.floor((635 * percent) / 100);
+        const defaultColor = color ? `#${color}` : "#248f24";
         const buffer = await new Canvas(934, 282)
             .setColor("#23272A")
             .printRoundedRectangle(0, 0, 934, 282, 10)
@@ -55,24 +65,27 @@ export class CanvasService {
             .printRoundedRectangle(256, 179, 635, 34, 100)
             .setStrokeWidth(2)
             .stroke()
-            .setColor("#248f24")
-            .printRoundedRectangle(256, 180, width, 32, 100)
+            .setColor(defaultColor)
+            .printRoundedRectangle(256, 180, barWidth, 32, 100)
             .setColor("#FEFEFE")
             .setTextFont("24px Sans")
             .setTextAlign("start")
-            .measureText(tag, ({ width }) => fix = width + 350)
+            .measureText(tag, ({ width }) => (fix = width + 350))
             .printText(tag, 260, 165)
             .setTextAlign("right")
             .setColor("#7F8384")
             .setTextFont("24px Sans")
-            .measureText("/ " + xpToLevel + " XP", ({ width }) => fix = 870 - width)
-            .printText("/ " + xpToLevel + " XP", 880, 165)
+            .measureText(
+                "/ " + this.formatNumber(xpToLevel) + " XP",
+                ({ width }) => (fix = 870 - width),
+            )
+            .printText("/ " + this.formatNumber(xpToLevel) + " XP", 880, 165)
             .setColor("#FEFEFE")
-            .printText(xp.toString(), fix, 165)
+            .printText(this.formatNumber(xp), fix, 165)
             .setTextFont("24px Sans")
             .setColor("#FEFEFE")
             .printText(level + " Level", 640, 205)
-            .setColor("#2ECC71")
+            .setColor(defaultColor)
             .setTextAlign("right")
             .printText(`Rank: #${position}`, 870, 90)
             .toBufferAsync();
