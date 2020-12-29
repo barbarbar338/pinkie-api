@@ -30,7 +30,23 @@ export class CanvasService {
         const outputNum =
             Math.round((longNumber * decimal) / Math.pow(10, length)) / decimal;
         const short = " kMGTPE"[length / 3];
-        return outputNum + short;
+        return (outputNum + short).trim();
+    }
+    private invertColor(hex: string, bw: boolean): string {
+        if (hex.indexOf("#") === 0) hex = hex.slice(1);
+        if (hex.length === 3)
+            hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+        const red = parseInt(hex.slice(0, 2), 16);
+        const green = parseInt(hex.slice(2, 4), 16);
+        const blue = parseInt(hex.slice(4, 6), 16);
+        if (bw)
+            return red * 0.299 + green * 0.587 + blue * 0.114 > 186
+                ? "#000000"
+                : "#FFFFFF";
+        const newRed = ([0, 0] + (255 - red).toString(16)).slice(-2);
+        const newGreen = ([0, 0] + (255 - green).toString(16)).slice(-2);
+        const newBlue = ([0, 0] + (255 - blue).toString(16)).slice(-2);
+        return "#" + newRed + newGreen + newBlue;
     }
     public async createRankCard({
         xp,
@@ -83,7 +99,7 @@ export class CanvasService {
             .setColor("#FEFEFE")
             .printText(this.formatNumber(xp), fix, 165)
             .setTextFont("24px Sans")
-            .setColor("#FEFEFE")
+            .setColor(this.invertColor(defaultColor, true))
             .printText(level + " Level", 640, 205)
             .setColor(defaultColor)
             .setTextAlign("right")
