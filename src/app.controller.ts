@@ -10,6 +10,34 @@ export class AppController {
         };
     }
 
+    @Get("offsets")
+    getOffsets(): APIRes {
+        return {
+            version: "1.0.0",
+            latestKey: "flying-squid",
+            offsets: {
+                m_bDormant: 0xed,
+                m_bSpotted: 0x93d,
+                m_dwBoneMatrix: 0x26a8,
+                m_fFlags: 0x104,
+                m_flFlashMaxAlpha: 0xa41c,
+                m_iCrosshairId: 0xb3e4,
+                m_iGlowIndex: 0xa438,
+                m_iHealth: 0x100,
+                m_iTeamNum: 0xf4,
+                m_vecOrigin: 0x138,
+                m_vecViewOffset: 0x108,
+                dwClientState: 0x58efe4,
+                dwClientState_ViewAngles: 0x4d90,
+                dwEntityList: 0x4da2e74,
+                dwForceAttack: 0x31d4404,
+                dwForceJump: 0x524cdd4,
+                dwGlowObjectManager: 0x52eb478,
+                dwLocalPlayer: 0xd8b2ac,
+            },
+        };
+    }
+
     @Get()
     @Redirect("/docs", 302)
     redirectToDocs(): void {}
