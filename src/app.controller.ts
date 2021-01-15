@@ -13,8 +13,8 @@ export class AppController {
     @Get("offsets")
     getOffsets(): APIRes {
         return {
-            version: "1.0.0",
-            latestKey: "flying-squid",
+            version: "1.1.0",
+            latestKey: "tasty-jellyfish",
             offsets: {
                 m_bDormant: 0xed,
                 m_bSpotted: 0x93d,
