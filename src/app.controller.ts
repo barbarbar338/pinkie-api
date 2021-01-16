@@ -13,8 +13,8 @@ export class AppController {
     @Get("offsets")
     getOffsets(): APIRes {
         return {
-            version: "1.1.0",
-            latestKey: "tasty-jellyfish",
+            version: "1.1.1",
+            latestKey: "squishy-rock",
             offsets: {
                 m_bDormant: 0xed,
                 m_bSpotted: 0x93d,
@@ -34,6 +34,7 @@ export class AppController {
                 dwForceJump: 0x524cdd4,
                 dwGlowObjectManager: 0x52eb478,
                 dwLocalPlayer: 0xd8b2ac,
+                m_iFOV: 0x31E4
             },
         };
     }
