@@ -34,7 +34,9 @@ export class AppController {
                 dwForceJump: 0x524cdd4,
                 dwGlowObjectManager: 0x52eb478,
                 dwLocalPlayer: 0xd8b2ac,
-                m_iFOV: 0x31E4
+                m_iFOV: 0x31E4,
+                m_iShotsFired: 0xA390,
+                m_aimPunchAngle: 0x302C,
             },
         };
     }
