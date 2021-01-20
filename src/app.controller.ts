@@ -13,8 +13,8 @@ export class AppController {
     @Get("offsets")
     getOffsets(): APIRes {
         return {
-            version: "1.1.2",
-            latestKey: "butter-crayfish",
+            version: "1.2.0",
+            latestKey: "salty-jellyfish",
             offsets: {
                 m_bDormant: 0xED,
                 m_bSpotted: 0x93D,
@@ -37,7 +37,10 @@ export class AppController {
                 m_iDefaultFOV: 0x332C,
                 m_iShotsFired: 0xA390,
                 m_aimPunchAngle: 0x302C,
-                m_clrRender: 0x70
+                m_clrRender: 0x70,
+                dwPlayerResource: 0x31D2730,
+                dwClientState_PlayerInfo: 0x52C0,
+                m_iCompetitiveRanking: 0x1A84,
             },
         };
     }
