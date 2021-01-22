@@ -11,10 +11,10 @@ export class AppController {
     }
 
     @Get("check")
-    getOffsets(): APIRes {
+    checkVersion(): APIRes {
         return {
-            version: "2.0.0",
-            latestKey: "spicy-donut",
+            version: "2.1.0",
+            latestKey: "disguised-shake",
         };
     }
 
