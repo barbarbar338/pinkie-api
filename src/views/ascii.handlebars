@@ -40,10 +40,10 @@
                                 <a class="nav-link" href="/">Ana Sayfa</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" href="https://bariscodes.me/discord">Discord Sunucusu</a>
+                                <a class="nav-link" href="https://barbarbar338.fly.dev/discord">Discord Sunucusu</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" href="https://bariscodes.me/github">Github</a>
+                                <a class="nav-link" href="https://barbarbar338.fly.dev/github">Github</a>
                             </li>
                             <li class="nav-item dropdown active">
                                 <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -66,7 +66,7 @@
                     <h3 class="mt-4">Ping <button class="btn btn-success">GET</button></h3>
                         <ul>
                             <li>Metot: <code>GET</code></li>
-                            <li>URL: <code>https://api.bariscodes.me/v2/ascii/ping</code></li>
+                            <li>URL: <code>https://pinkie-api.fly.dev/v2/ascii/ping</code></li>
                             <li>ÇIKTI:
                                 <ul>
                                     <li>message: <code>string</code></li>
@@ -81,7 +81,7 @@
 4
 5</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #fb660a; font-weight: bold">import</span> <span style="color: #ffffff">fetch</span> <span style="color: #ffffff">from</span> <span style="color: #0086d2">&quot;node-fetch&quot;</span><span style="color: #ffffff">;</span>
 
-<span style="color: #ffffff">fetch(</span><span style="color: #0086d2">&quot;https://api.bariscodes.me/v2/ascii/ping&quot;</span><span style="color: #ffffff">).then(res</span> <span style="color: #ffffff">=&gt;</span> <span style="color: #ffffff">res.json()).then(body</span> <span style="color: #ffffff">=&gt;</span> <span style="color: #ffffff">{</span>
+<span style="color: #ffffff">fetch(</span><span style="color: #0086d2">&quot;https://pinkie-api.fly.dev/v2/ascii/ping&quot;</span><span style="color: #ffffff">).then(res</span> <span style="color: #ffffff">=&gt;</span> <span style="color: #ffffff">res.json()).then(body</span> <span style="color: #ffffff">=&gt;</span> <span style="color: #ffffff">{</span>
     <span style="color: #ffffff">console.log(body);</span>
 <span style="color: #ffffff">});</span>
 </pre></td></tr></table>
@@ -101,7 +101,7 @@
                         <h3 class="mt-4">Ascii Çeviri <button class="btn btn-success">GET</button></h3>
                         <ul>
                             <li>Metot: <code>GET</code></li>
-                            <li>URL: <code>https://api.bariscodes.me/v2/ascii</code></li>
+                            <li>URL: <code>https://pinkie-api.fly.dev/v2/ascii</code></li>
                             <li>QUERY: 
                                 <ul>
                                     <li>message: <code>string</code></li>
@@ -121,7 +121,7 @@
 4
 5</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #fb660a; font-weight: bold">import</span> <span style="color: #ffffff">fetch</span> <span style="color: #ffffff">from</span> <span style="color: #0086d2">&quot;node-fetch&quot;</span><span style="color: #ffffff">;</span>
 
-<span style="color: #ffffff">fetch(</span><span style="color: #0086d2">`https://api.bariscodes.me/v2/ascii?message=${encodeURIComponent("Selam")}`</span><span style="color: #ffffff">).then(res</span> <span style="color: #ffffff">=&gt;</span> <span style="color: #ffffff">res.json()).then(body</span> <span style="color: #ffffff">=&gt;</span> <span style="color: #ffffff">{</span>
+<span style="color: #ffffff">fetch(</span><span style="color: #0086d2">`https://pinkie-api.fly.dev/v2/ascii?message=${encodeURIComponent("Selam")}`</span><span style="color: #ffffff">).then(res</span> <span style="color: #ffffff">=&gt;</span> <span style="color: #ffffff">res.json()).then(body</span> <span style="color: #ffffff">=&gt;</span> <span style="color: #ffffff">{</span>
     <span style="color: #ffffff">console.log(body);</span>
 <span style="color: #ffffff">});</span>
 </pre></td></tr></table>
@@ -141,7 +141,7 @@
                         <h3 class="mt-4">Ascii Çeviri <button class="btn btn-warning">POST</button></h3>
                         <ul>
                             <li>Metot: <code>POST</code></li>
-                            <li>URL: <code>https://api.bariscodes.me/v2/ascii</code></li>
+                            <li>URL: <code>https://pinkie-api.fly.dev/v2/ascii</code></li>
                             <li>BODY: 
                                 <ul>
                                     <li>message: <code>string</code></li>
@@ -175,7 +175,7 @@
 	<span style="color: #ffffff">message:</span> <span style="color: #0086d2">&quot;Selam&quot;</span>
 <span style="color: #ffffff">}</span>
 
-<span style="color: #ffffff">fetch(</span><span style="color: #0086d2">&quot;https://api.bariscodes.me/v2/ascii&quot;</span><span style="color: #ffffff">,</span> <span style="color: #ffffff">{</span>
+<span style="color: #ffffff">fetch(</span><span style="color: #0086d2">&quot;https://pinkie-api.fly.dev/v2/ascii&quot;</span><span style="color: #ffffff">,</span> <span style="color: #ffffff">{</span>
 	<span style="color: #ffffff">method:</span> <span style="color: #0086d2">&quot;POST&quot;</span><span style="color: #ffffff">,</span>
 	<span style="color: #ffffff">body</span>: <span style="color: #cdcaa9; font-weight: bold">JSON.stringify</span><span style="color: #ffffff">(body),</span>
 	<span style="color: #ffffff">headers:</span> <span style="color: #ffffff">{</span>
