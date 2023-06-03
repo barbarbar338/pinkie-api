@@ -6,12 +6,18 @@
     "private": true,
     "license": "MIT",
     "scripts": {
+        "dev": "lagon dev index.ts",
         "format": "prettier --write .",
         "update": "taze latest -w"
     },
-    "dependencies": {},
+    "dependencies": {
+        "sidra": "^0.1.7"
+    },
     "devDependencies": {
+        "@lagon/cli": "^0.7.3",
+        "esbuild": "^0.17.19",
         "prettier": "^2.8.8",
-        "taze": "^0.10.1"
+        "taze": "^0.10.1",
+        "typescript": "^5.1.3"
     }
 }
