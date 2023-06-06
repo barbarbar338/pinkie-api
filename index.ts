@@ -1,15 +1,23 @@
-import { Controller, Get, HTTPStatus, Handle, type APIRes } from "sidra";
+import {
+    Controller,
+    Get,
+    HTTPStatus,
+    Handle,
+    Redirect,
+    type IRedirectRes,
+} from "sidra";
+import { PingController } from "./controllers/ping.controller";
 
 @Controller()
-class MyController {
+class AppController {
+    @Redirect()
     @Get()
-    get(): APIRes<string> {
+    redirectToRepo(): IRedirectRes {
         return {
-            data: "Hello World",
-            message: "Hello World",
-            statusCode: HTTPStatus.OK,
+            statusCode: HTTPStatus.MOVED_PERMANENTLY,
+            to: "https://github.com/barbarbar338/pinkie-api",
         };
     }
 }
 
-export const handler = Handle([MyController]);
+export const handler = Handle([PingController, AppController]);
