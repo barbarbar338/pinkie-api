@@ -6,6 +6,7 @@ import {
     Redirect,
     type IRedirectRes,
 } from "sidra";
+import { CanvasController } from "./controllers/canvas.controller";
 import { PingController } from "./controllers/ping.controller";
 
 @Controller()
@@ -20,4 +21,8 @@ class AppController {
     }
 }
 
-export const handler = Handle([PingController, AppController]);
+export const handler = Handle([
+    CanvasController,
+    PingController,
+    AppController,
+]);
