@@ -58,4 +58,31 @@ export class CanvasController {
 			extension,
 		);
 	}
+
+	@Get("rankcard")
+	getRankCard(
+		@Query("xp") xp: number,
+		@Query("level") level: number,
+		@Query("xpToLevel") xpToLevel: number,
+		@Query("position") position: number,
+		@Query("avatar") avatar: string,
+		@Query("status") status: string,
+		@Query("tag") tag: string,
+		@Query("color") color: string,
+		@Query("extension") extension: string,
+		@Res() res: Response,
+	): Promise<void> {
+		return this.canvasService.createLevelCard(
+			res,
+			xp,
+			level,
+			xpToLevel,
+			position,
+			avatar,
+			status,
+			tag,
+			color,
+			extension,
+		);
+	}
 }

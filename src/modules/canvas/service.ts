@@ -24,6 +24,14 @@ const icons = readdirSync(
 	resolve(process.cwd(), "src", "assets", "minecraft_item_icons"),
 ).map((file) => file.split(".")[0]);
 
+const statusColors = {
+	online: "#00ff00",
+	invisible: "#d1d1e0",
+	offline: "#d1d1e0",
+	dnd: "#ff3300",
+	idle: "#ffff00",
+};
+
 @Injectable()
 export class CanvasService {
 	// TODO: sharp causes some errors on windows, so it's disabled for now
@@ -57,6 +65,33 @@ export class CanvasService {
 		return canvas;
 	}
 
+	private formatNumber(longNumber: number, defaultDecimal = 2): string {
+		let length = longNumber.toString().length;
+		const decimal = Math.pow(10, defaultDecimal);
+		length -= length % 3;
+		const outputNum =
+			Math.round((longNumber * decimal) / Math.pow(10, length)) / decimal;
+		const short = " kMGTPE"[length / 3];
+		return (outputNum + short).trim();
+	}
+
+	private invertColor(hex: string, bw: boolean): string {
+		if (hex.indexOf("#") === 0) hex = hex.slice(1);
+		if (hex.length === 3)
+			hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+		const red = parseInt(hex.slice(0, 2), 16);
+		const green = parseInt(hex.slice(2, 4), 16);
+		const blue = parseInt(hex.slice(4, 6), 16);
+		if (bw)
+			return red * 0.299 + green * 0.587 + blue * 0.114 > 186
+				? "#000000"
+				: "#FFFFFF";
+		const newRed = ([0, 0] + (255 - red).toString(16)).slice(-2);
+		const newGreen = ([0, 0] + (255 - green).toString(16)).slice(-2);
+		const newBlue = ([0, 0] + (255 - blue).toString(16)).slice(-2);
+		return "#" + newRed + newGreen + newBlue;
+	}
+
 	private fetchMinecraftImage = (name: string) =>
 		loadImage(
 			resolve(
@@ -78,24 +113,19 @@ export class CanvasService {
 		height?: number,
 	): Promise<void> {
 		if (!text) throw new BadRequestException("No message provided");
-
 		if (bgColor && !colorRegex.test(bgColor))
 			throw new BadRequestException("Invalid background color");
-
 		if (textColor && !colorRegex.test(textColor))
 			throw new BadRequestException("Invalid text color");
-
 		if (extension && !extensions.includes(extension))
 			throw new BadRequestException({
 				message: "Invalid extension",
 				availableExtensions: extensions,
 			});
-
 		if (width && isNaN(width))
 			throw new BadRequestException("Invalid width");
 		if (height && isNaN(height))
 			throw new BadRequestException("Invalid height");
-
 		if (width && (width > 2000 || width < 100))
 			throw new BadRequestException("Width must be between 100 and 2000");
 		if (height && (height > 2000 || height < 100))
@@ -165,17 +195,15 @@ export class CanvasService {
 		if (!title) throw new BadRequestException("No title provided");
 		if (!message) throw new BadRequestException("No message provided");
 		if (!icon) throw new BadRequestException("No icon provided");
-
-		if (extension && !extensions.includes(extension))
-			throw new BadRequestException({
-				message: "Invalid extension",
-				availableExtensions: extensions,
-			});
-
 		if (!icons.includes(icon))
 			throw new BadRequestException({
 				message: "Invalid icon",
 				availableIcons: icons,
+			});
+		if (extension && !extensions.includes(extension))
+			throw new BadRequestException({
+				message: "Invalid extension",
+				availableExtensions: extensions,
 			});
 
 		extension = extension ? extension : "png";
@@ -209,17 +237,15 @@ export class CanvasService {
 	): Promise<void> {
 		if (!avatar) throw new BadRequestException("No avatar provided");
 		if (!overlay) throw new BadRequestException("No overlay provided");
-
-		if (extension && !extensions.includes(extension))
-			throw new BadRequestException({
-				message: "Invalid extension",
-				availableExtensions: extensions,
-			});
-
 		if (!overlays.includes(overlay))
 			throw new BadRequestException({
 				message: "Invalid overlay",
 				availableOverlays: overlays,
+			});
+		if (extension && !extensions.includes(extension))
+			throw new BadRequestException({
+				message: "Invalid extension",
+				availableExtensions: extensions,
 			});
 
 		extension = extension ? extension : "png";
@@ -240,6 +266,108 @@ export class CanvasService {
 
 		ctx.drawImage(avatarImage, 0, 0, canvas.width, canvas.height);
 		ctx.drawImage(overlayImage, 0, 0, canvas.width, canvas.height);
+
+		const canvasBuffer = canvas.toBuffer();
+
+		const buffer = await this.toExtension(canvasBuffer, extension);
+
+		res.set("Content-Type", `image/${extension}`).send(buffer);
+	}
+
+	public async createLevelCard(
+		res: Response,
+		xp: number,
+		level: number,
+		xpToLevel: number,
+		position: number,
+		avatarURL: string,
+		status: string,
+		tag: string,
+		color: string,
+		extension?: string,
+	): Promise<void> {
+		if (isNaN(xp)) throw new BadRequestException("Invalid xp");
+		if (isNaN(level)) throw new BadRequestException("Invalid level");
+		if (isNaN(xpToLevel))
+			throw new BadRequestException("Invalid xpToLevel");
+		if (isNaN(position)) throw new BadRequestException("Invalid position");
+		if (!avatarURL) throw new BadRequestException("No avatar provided");
+		if (!status) throw new BadRequestException("No status provided");
+		if (!tag) throw new BadRequestException("No tag provided");
+		if (!color) throw new BadRequestException("No color provided");
+		if (!colorRegex.test(color))
+			throw new BadRequestException("Invalid color");
+		if (extension && !extensions.includes(extension))
+			throw new BadRequestException({
+				message: "Invalid extension",
+				availableExtensions: extensions,
+			});
+
+		extension = extension ? extension : "png";
+
+		const avatarImage = await loadImage(avatarURL);
+		const percent = Math.floor((100 * xp) / xpToLevel);
+		const barWidth = Math.floor((635 * percent) / 100);
+		const defaultColor = color ? `#${color}` : "#248f24";
+
+		const canvas = createCanvas(934, 282);
+		const ctx = canvas.getContext("2d");
+
+		ctx.fillStyle = "#23272A";
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+		ctx.fillStyle = "#16181A";
+		ctx.fillRect(20, 37, 890, 211);
+
+		ctx.drawImage(avatarImage, 43, 63, 160, 160);
+
+		ctx.lineWidth = 4;
+		ctx.strokeStyle = "#000000";
+		ctx.stroke();
+
+		ctx.beginPath();
+		ctx.arc(185, 195, 20, 0, Math.PI * 2, true);
+		ctx.closePath();
+		ctx.lineWidth = 8;
+		ctx.strokeStyle = "#000000";
+		ctx.stroke();
+		ctx.fillStyle = statusColors[status];
+
+		ctx.fill();
+
+		ctx.fillStyle = "#484b4e";
+		ctx.fillRect(256, 179, 635, 34);
+
+		ctx.lineWidth = 2;
+		ctx.strokeStyle = "#000000";
+
+		ctx.stroke();
+
+		ctx.fillStyle = defaultColor;
+		ctx.fillRect(256, 180, barWidth, 32);
+
+		ctx.fillStyle = "#FEFEFE";
+		ctx.font = "24px Sans";
+		ctx.textAlign = "start";
+		ctx.fillText(tag, 260, 165);
+
+		ctx.textAlign = "right";
+		ctx.fillStyle = "#7F8384";
+		ctx.fillText("/ " + this.formatNumber(xpToLevel) + " XP", 880, 165);
+
+		const { width } = ctx.measureText(
+			"/ " + this.formatNumber(xpToLevel) + " XP",
+		);
+
+		ctx.fillStyle = "#FEFEFE";
+		ctx.fillText(this.formatNumber(xp), 870 - width, 165);
+
+		ctx.fillStyle = this.invertColor(defaultColor, true);
+		ctx.fillText(level + " Level", 640, 205);
+
+		ctx.fillStyle = defaultColor;
+		ctx.textAlign = "right";
+		ctx.fillText(`Rank: #${position}`, 870, 90);
 
 		const canvasBuffer = canvas.toBuffer();
 
