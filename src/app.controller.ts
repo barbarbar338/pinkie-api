@@ -1,24 +1,12 @@
-import { Controller, Get, Redirect } from "@nestjs/common";
-import { APIRes } from "pinkie-api-types";
+import { Controller, Get } from "@nestjs/common";
+import { AppService } from "./app.service";
 
 @Controller()
 export class AppController {
-    @Get("ping")
-    replyPing(): APIRes {
-        return {
-            message: "Pong!",
-        };
-    }
+	constructor(private readonly appService: AppService) {}
 
-    @Get("check")
-    checkVersion(): APIRes {
-        return {
-            version: "2.1.0",
-            latestKey: "disguised-shake",
-        };
-    }
-
-    @Get()
-    @Redirect("/docs", 302)
-    redirectToDocs(): void {}
+	@Get()
+	getHello(): string {
+		return this.appService.getHello();
+	}
 }
