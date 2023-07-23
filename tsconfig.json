@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"module": "commonjs",
+		"module": "CommonJS",
 		"declaration": false,
 		"removeComments": true,
 		"emitDecoratorMetadata": true,
@@ -17,6 +17,11 @@
 		"strictBindCallApply": false,
 		"forceConsistentCasingInFileNames": false,
 		"noFallthroughCasesInSwitch": false,
-		"typeRoots": ["node_modules/@types", "src/@types"]
+		"jsx": "react",
+		"esModuleInterop": true,
+		"typeRoots": [
+			"node_modules/@types",
+			"src/@types"
+		],
 	}
 }

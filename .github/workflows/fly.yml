@@ -2,7 +2,7 @@ name: Deploy Pinkie API to Fly.io
 on:
     push:
         branches:
-            - main
+            - master
 
 jobs:
     deploy:
