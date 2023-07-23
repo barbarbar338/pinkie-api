@@ -26,4 +26,21 @@ export class CanvasController {
 			height,
 		);
 	}
+
+	@Get("achievement")
+	getAchievement(
+		@Query("title") title: string,
+		@Query("message") message: string,
+		@Query("icon") icon: string,
+		@Query("extension") extension: string,
+		@Res() res: Response,
+	): Promise<void> {
+		return this.canvasService.createAchievement(
+			res,
+			title,
+			message,
+			icon,
+			extension,
+		);
+	}
 }

@@ -1,13 +1,73 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
-import { createCanvas } from "canvas";
+import { Canvas, createCanvas, loadImage, registerFont } from "canvas";
 import { Response } from "express";
-import sharp from "sharp";
+import { readdirSync } from "fs";
+import { resolve } from "path";
+
+registerFont(
+	resolve(process.cwd(), "src", "assets", "fonts", "Minecraft.ttf"),
+	{
+		family: "Minecraft",
+	},
+);
+
+registerFont(resolve(process.cwd(), "src", "assets", "fonts", "Roboto.ttf"), {
+	family: "Roboto",
+});
 
 const colorRegex = /^([0-9a-f]{3}){1,2}$/i;
 const extensions = ["png", "jpeg", "webp"];
+const overlays = readdirSync(
+	resolve(process.cwd(), "src", "assets", "overlays"),
+).map((file) => file.split(".")[0]);
+const icons = readdirSync(
+	resolve(process.cwd(), "src", "assets", "minecraft_item_icons"),
+).map((file) => file.split(".")[0]);
 
 @Injectable()
 export class CanvasService {
+	// TODO: sharp causes some errors on windows, so it's disabled for now
+	private async toExtension(buffer: Buffer, extension: string) {
+		if (process.platform == "win32") return buffer;
+		else {
+			const { default: sharp } = await import("sharp");
+			return await sharp(buffer)
+				[extension]({
+					quality: 70,
+				})
+				.toBuffer();
+		}
+	}
+
+	private async createMinecraftCanvas(): Promise<Canvas> {
+		const canvas = createCanvas(503, 100);
+		const ctx = canvas.getContext("2d");
+
+		const background = await loadImage(
+			resolve(
+				process.cwd(),
+				"src",
+				"assets",
+				"minecraft_achievement_background.png",
+			),
+		);
+
+		ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+
+		return canvas;
+	}
+
+	private fetchMinecraftImage = (name: string) =>
+		loadImage(
+			resolve(
+				process.cwd(),
+				"src",
+				"assets",
+				"minecraft_item_icons",
+				`${name}.png`,
+			),
+		);
+
 	async createBanner(
 		res: Response,
 		text: string,
@@ -90,12 +150,54 @@ export class CanvasService {
 
 		const canvasBuffer = canvas.toBuffer();
 
-		const buffer = await sharp(canvasBuffer)
-			[extension]({
-				quality: 70,
-			})
-			.toBuffer();
+		const buffer = await this.toExtension(canvasBuffer, extension);
 
-		res.set("Content-Type", `image/${extension}`).send(canvasBuffer);
+		res.set("Content-Type", `image/${extension}`).send(buffer);
+	}
+
+	async createAchievement(
+		res: Response,
+		title: string,
+		message: string,
+		icon: string,
+		extension?: string,
+	): Promise<void> {
+		if (!title) throw new BadRequestException("No title provided");
+		if (!message) throw new BadRequestException("No message provided");
+		if (!icon) throw new BadRequestException("No icon provided");
+
+		if (extension && !extensions.includes(extension))
+			throw new BadRequestException({
+				message: "Invalid extension",
+				availableExtensions: extensions,
+			});
+
+		if (!icons.includes(icon))
+			throw new BadRequestException({
+				message: "Invalid icon",
+				availableIcons: icons,
+			});
+
+		extension = extension ? extension : "png";
+
+		const image = await this.fetchMinecraftImage(icon);
+
+		const canvas = await this.createMinecraftCanvas();
+
+		const ctx = canvas.getContext("2d");
+
+		ctx.drawImage(image, 20, 20);
+		ctx.font = "24px Minecraft";
+		ctx.textAlign = "left";
+		ctx.fillStyle = "#f8f628";
+		ctx.fillText(title, 100, 40);
+		ctx.fillStyle = "#ffffff";
+		ctx.fillText(message, 100, 80);
+
+		const canvasBuffer = canvas.toBuffer();
+
+		const buffer = await this.toExtension(canvasBuffer, extension);
+
+		res.set("Content-Type", `image/${extension}`).send(buffer);
 	}
 }
