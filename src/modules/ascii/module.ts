@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
-import { AsciiController } from "./ascii.controller";
-import { AsciiService } from "./ascii.service";
+import { AsciiController } from "./controller";
+import { AsciiService } from "./service";
 
 @Module({
 	controllers: [AsciiController],

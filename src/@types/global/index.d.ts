@@ -9,5 +9,10 @@ declare global {
 			success: boolean;
 			data: T;
 		}
+
+		interface SwearTestRes {
+			isSwear: boolean;
+			replies: string[];
+		}
 	}
 }

@@ -1,6 +1,6 @@
 import { Controller, Get, Query } from "@nestjs/common";
 import { Fonts } from "figlet";
-import { AsciiService } from "./ascii.service";
+import { AsciiService } from "./service";
 
 @Controller("ascii")
 export class AsciiController {

@@ -3,5 +3,5 @@ export default [
 	"Galiba %{member} küfür ediyor. Birileri bu kullanıcıyı durdursun!",
 	"%{member}, ağzını topla!",
 	"%{member}, sana kaç kere küfür etmemeni söylemeliyim?",
-	"Hey %{member}, Bu sunucuda küfür yasak!",
+	"Hey %{member}, burada küfür yasak!",
 ];
