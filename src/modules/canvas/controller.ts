@@ -43,4 +43,19 @@ export class CanvasController {
 			extension,
 		);
 	}
+
+	@Get("overlay")
+	getOverlay(
+		@Query("avatar") avatar: string,
+		@Query("overlay") overlay: string,
+		@Query("extension") extension: string,
+		@Res() res: Response,
+	): Promise<void> {
+		return this.canvasService.createOverlay(
+			res,
+			avatar,
+			overlay,
+			extension,
+		);
+	}
 }

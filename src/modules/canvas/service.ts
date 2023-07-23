@@ -200,4 +200,51 @@ export class CanvasService {
 
 		res.set("Content-Type", `image/${extension}`).send(buffer);
 	}
+
+	public async createOverlay(
+		res: Response,
+		avatar: string,
+		overlay: string,
+		extension?: string,
+	): Promise<void> {
+		if (!avatar) throw new BadRequestException("No avatar provided");
+		if (!overlay) throw new BadRequestException("No overlay provided");
+
+		if (extension && !extensions.includes(extension))
+			throw new BadRequestException({
+				message: "Invalid extension",
+				availableExtensions: extensions,
+			});
+
+		if (!overlays.includes(overlay))
+			throw new BadRequestException({
+				message: "Invalid overlay",
+				availableOverlays: overlays,
+			});
+
+		extension = extension ? extension : "png";
+
+		const avatarImage = await loadImage(avatar);
+		const overlayImage = await loadImage(
+			resolve(
+				process.cwd(),
+				"src",
+				"assets",
+				"overlays",
+				`${overlay}.png`,
+			),
+		);
+
+		const canvas = createCanvas(330, 330);
+		const ctx = canvas.getContext("2d");
+
+		ctx.drawImage(avatarImage, 0, 0, canvas.width, canvas.height);
+		ctx.drawImage(overlayImage, 0, 0, canvas.width, canvas.height);
+
+		const canvasBuffer = canvas.toBuffer();
+
+		const buffer = await this.toExtension(canvasBuffer, extension);
+
+		res.set("Content-Type", `image/${extension}`).send(buffer);
+	}
 }
