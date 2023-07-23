@@ -65,9 +65,10 @@ export class CanvasService {
 		return canvas;
 	}
 
-	private formatNumber(longNumber: number, defaultDecimal = 2): string {
+	private formatNumber(longNumber: number): string {
+		if (longNumber < 1000) return longNumber.toString();
 		let length = longNumber.toString().length;
-		const decimal = Math.pow(10, defaultDecimal);
+		const decimal = Math.pow(10, 2);
 		length -= length % 3;
 		const outputNum =
 			Math.round((longNumber * decimal) / Math.pow(10, length)) / decimal;
@@ -363,11 +364,11 @@ export class CanvasService {
 		ctx.fillText(this.formatNumber(xp), 870 - width, 165);
 
 		ctx.fillStyle = this.invertColor(defaultColor, true);
-		ctx.fillText(level + " Level", 640, 205);
+		ctx.fillText(this.formatNumber(level) + " Level", 640, 205);
 
 		ctx.fillStyle = defaultColor;
 		ctx.textAlign = "right";
-		ctx.fillText(`Rank: #${position}`, 870, 90);
+		ctx.fillText(`Rank: #${this.formatNumber(position)}`, 870, 90);
 
 		const canvasBuffer = canvas.toBuffer();
 
