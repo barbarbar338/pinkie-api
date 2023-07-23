@@ -1,10 +1,24 @@
 import { Module } from "@nestjs/common";
+import { APP_GUARD } from "@nestjs/core";
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { RateLimiterGuard, RateLimiterModule } from "nestjs-rate-limit";
+import { resolve } from "path";
 import { AppController } from "./app.controller";
-import { AppService } from "./app.service";
+import { AsciiModule } from "./modules/ascii/ascii.module";
 
 @Module({
-	imports: [],
+	imports: [
+		RateLimiterModule.forRoot({
+			points: 100,
+			duration: 5,
+			keyPrefix: "global",
+		}),
+		ServeStaticModule.forRoot({
+			rootPath: resolve(process.cwd(), "src", "public"),
+		}),
+		AsciiModule,
+	],
 	controllers: [AppController],
-	providers: [AppService],
+	providers: [{ provide: APP_GUARD, useClass: RateLimiterGuard }],
 })
 export class AppModule {}
