@@ -317,10 +317,31 @@ export class CanvasService {
 		ctx.fillStyle = "#23272A";
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+		const borderRadius10 = canvas.height * 0.1;
 		ctx.fillStyle = "#16181A";
-		ctx.fillRect(20, 37, 890, 211);
+		ctx.beginPath();
+		ctx.moveTo(20 + borderRadius10, 37);
+		ctx.lineTo(910 - borderRadius10, 37);
+		ctx.quadraticCurveTo(910, 37, 910, 37 + borderRadius10);
+		ctx.lineTo(910, 248 - borderRadius10);
+		ctx.quadraticCurveTo(910, 248, 910 - borderRadius10, 248);
+		ctx.lineTo(20 + borderRadius10, 248);
+		ctx.quadraticCurveTo(20, 248, 20, 248 - borderRadius10);
+		ctx.lineTo(20, 37 + borderRadius10);
+		ctx.quadraticCurveTo(20, 37, 20 + borderRadius10, 37);
+		ctx.closePath();
+		ctx.fill();
 
+		const avatarRadius = 80;
+		const avatarX = 43 + avatarRadius;
+		const avatarY = 63 + avatarRadius;
+		ctx.save();
+		ctx.beginPath();
+		ctx.arc(avatarX, avatarY, avatarRadius, 0, Math.PI * 2, true);
+		ctx.closePath();
+		ctx.clip();
 		ctx.drawImage(avatarImage, 43, 63, 160, 160);
+		ctx.restore();
 
 		ctx.lineWidth = 4;
 		ctx.strokeStyle = "#000000";
@@ -341,7 +362,6 @@ export class CanvasService {
 
 		ctx.lineWidth = 2;
 		ctx.strokeStyle = "#000000";
-
 		ctx.stroke();
 
 		ctx.fillStyle = defaultColor;
