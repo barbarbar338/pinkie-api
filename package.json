@@ -20,9 +20,9 @@
 		"update": "taze latest -w"
 	},
 	"dependencies": {
-		"@nestjs/common": "^10.1.0",
-		"@nestjs/core": "^10.1.0",
-		"@nestjs/platform-express": "^10.1.0",
+		"@nestjs/common": "^10.1.1",
+		"@nestjs/core": "^10.1.1",
+		"@nestjs/platform-express": "^10.1.1",
 		"@nestjs/serve-static": "^4.0.0",
 		"canvas": "^2.11.2",
 		"class-transformer": "^0.5.1",
