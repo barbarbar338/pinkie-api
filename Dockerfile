@@ -8,7 +8,4 @@ COPY . .
 RUN yarn install --frozen-lockfile
 RUN yarn build
 
-ENV NODE_ENV production
-ENV PORT 80
-
 CMD ["yarn", "start"]
