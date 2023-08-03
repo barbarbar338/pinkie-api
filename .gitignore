@@ -4,9 +4,5 @@ dist
 .env
 *.rest
 *lock*
-.next
-out
 build
-.vercel
-*.tsbuildinfo
-next-env.d.ts
+.svelte-kit
