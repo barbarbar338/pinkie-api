@@ -1,8 +1,9 @@
 # Pinkie API 🦄
 
--   Pinkie API hizmeti sürüm 2 hizmetinizdedir! 👀
+-   Pinkie API hizmeti sürüm 3 hizmetinizdedir! 👀
 -   Gelişmeler ve kaynak kodları için burayı takip edebilirsiniz. ✨
--   Mevcut API'ler hakında bilgi için https://api.338.rocks/docs sayfasını ziyaret edin! 👍
+-   Mevcut API'ler hakında bilgi için https://api.338.rocks sayfasını ziyaret edin! 👍
+-   Varsayılan API adresi: https://api.338.rocks/api/v3 🌐
 
 # Contributing (Katkı Bulunma) ✅
 
@@ -11,7 +12,6 @@
 
 # Uyarı ⚠️
 
--   `src/assets/swearWordList.ts` dosyası içerisinde rahatsız edici küfürler bulunabilir! ☠️
+-   `packages/backend/src/assets/swearWordList.ts` dosyası içerisinde rahatsız edici küfürler bulunabilir! ☠️
 -   Lütfen Self-Host yapmayınız, orijinal API'yi kullanınız. ⛔
--   Ana dizinde ve `test` klasörü içine bulunan herhangi bir dosyayı ve `src/main.ts` dosyasını değiştirmemeye çalışın. 👍
 -   Herhangi bir Pull Request'ten önce konsolda `npm run format` komutunu çalıştırmayı unutmayın. 🧹
