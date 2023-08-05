@@ -14,4 +14,8 @@ const env = cleanEnv(process.env, {
 
 export const CONFIG = {
 	...env,
+	dailyRequests: {
+		free: 5,
+		premium: 100000, // TODO: Add premium feature
+	},
 };
