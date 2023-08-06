@@ -7,6 +7,7 @@ import {
 import { Reflector } from "@nestjs/core";
 import { Request } from "express";
 import { CONFIG } from "src/config";
+import { User } from "src/models/user";
 import { RatelimitUtil } from "src/utils/ratelimit";
 
 @Injectable()
@@ -32,16 +33,13 @@ export class RatelimitGuard implements CanActivate {
 
 		const request = context.switchToHttp().getRequest<Request>();
 
-		let token = request.headers.authorization;
-		if (!token) throw new UnauthorizedException("Access token expected.");
+		const user = (request as any).user as User;
+		if (!user) throw new UnauthorizedException("Access token expected.");
 
-		token = token.startsWith("Bearer")
-			? token.match(/[^Bearer]\S+/g)[0].trim()
-			: token;
-
-		if (!token) throw new UnauthorizedException("Access token expected.");
-
-		const { canMake } = this.ratelimitUtil.makeRequest(token);
+		const { canMake } = this.ratelimitUtil.makeRequest(
+			user.access_token,
+			user.type,
+		);
 
 		if (!canMake)
 			throw new UnauthorizedException(

@@ -1,5 +1,5 @@
 import { Controller, Get, HttpStatus } from "@nestjs/common";
-import { AllowUnauthorized } from "./decorators/allowUnauthorized.decorator";
+import { AllowUnauthorized } from "./decorators/allowUnauthorized";
 
 @Controller()
 export class AppController {

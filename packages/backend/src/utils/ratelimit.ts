@@ -19,15 +19,15 @@ export class RatelimitUtil {
 		this.logger.log("Ratelimit job started.");
 	}
 
-	public getRemaining(token: string) {
+	public getRemaining(token: string, type: PinkieAPI.UserType) {
 		const requests = this.requests.get(token);
-		return CONFIG.dailyRequests.free - (requests || 0);
+		return this.getLimit(type) - (requests || 0);
 	}
 
-	public makeRequest(token: string) {
+	public makeRequest(token: string, type: PinkieAPI.UserType) {
 		const requests = this.requests.get(token);
-		const canMake = !requests || requests < CONFIG.dailyRequests.free;
-		const remaining = this.getRemaining(token);
+		const canMake = !requests || requests < this.getLimit(type);
+		const remaining = this.getRemaining(token, type);
 
 		if (canMake) {
 			this.requests.set(token, (requests || 0) + 1);
@@ -37,5 +37,14 @@ export class RatelimitUtil {
 			canMake,
 			remaining,
 		};
+	}
+
+	public getLimit(type: PinkieAPI.UserType) {
+		switch (type) {
+			case PinkieAPI.UserType.FREE:
+				return CONFIG.dailyRequests.free;
+			case PinkieAPI.UserType.PREMIUM:
+				return CONFIG.dailyRequests.premium;
+		}
 	}
 }

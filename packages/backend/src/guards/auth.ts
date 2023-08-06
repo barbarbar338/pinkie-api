@@ -6,12 +6,16 @@ import {
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { Request } from "express";
+import { AuthService } from "src/modules/auth/service";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-	constructor(private reflector: Reflector) {}
+	constructor(
+		private reflector: Reflector,
+		private readonly auhtService: AuthService,
+	) {}
 
-	canActivate(context: ExecutionContext) {
+	async canActivate(context: ExecutionContext) {
 		const allowUnauthorized = this.reflector.get<boolean>(
 			"allowUnauthorized",
 			context.getHandler(),
@@ -30,9 +34,10 @@ export class AuthGuard implements CanActivate {
 
 		if (!token) throw new UnauthorizedException("Access token expected.");
 
-		// Handle token logic
-		if (token != "TEST")
-			throw new UnauthorizedException("Invalid access token.");
+		const user = await this.auhtService.findUserByAccessToken(token);
+		if (!user) throw new UnauthorizedException("Invalid access token.");
+
+		(request as any).user = user;
 
 		return true;
 	}

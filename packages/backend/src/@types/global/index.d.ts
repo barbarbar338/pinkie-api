@@ -14,5 +14,18 @@ declare global {
 			isSwear: boolean;
 			replies: string[];
 		}
+
+		enum UserType {
+			FREE,
+			PREMIUM,
+		}
+
+		interface User {
+			user_id: string;
+			email: string;
+			access_token: string;
+			type: UserType;
+			remaining_requests: number;
+		}
 	}
 }
