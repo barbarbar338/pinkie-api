@@ -1,5 +1,5 @@
 services:
-    bhapi:
+    pinkieapi:
         build:
             context: .
             dockerfile: Dockerfile
