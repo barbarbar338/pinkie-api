@@ -3,6 +3,7 @@ import { Canvas, createCanvas, loadImage, registerFont } from "canvas";
 import { Response } from "express";
 import { readdirSync } from "fs";
 import { resolve } from "path";
+import sharp from "sharp";
 
 registerFont(
 	resolve(process.cwd(), "src", "assets", "fonts", "Minecraft.ttf"),
@@ -16,7 +17,7 @@ registerFont(resolve(process.cwd(), "src", "assets", "fonts", "Roboto.ttf"), {
 });
 
 const colorRegex = /^([0-9a-f]{3}){1,2}$/i;
-const extensions = ["png", "jpeg", "webp"];
+const extensions = ["png", "jpeg", "webp", "tiff"];
 const overlays = readdirSync(
 	resolve(process.cwd(), "src", "assets", "overlays"),
 ).map((file) => file.split(".")[0]);
@@ -34,17 +35,12 @@ const statusColors = {
 
 @Injectable()
 export class CanvasService {
-	// TODO: sharp causes some errors on windows, so it's disabled for now
 	private async toExtension(buffer: Buffer, extension: string) {
-		if (process.platform == "win32") return buffer;
-		else {
-			const { default: sharp } = await import("sharp");
-			return await sharp(buffer)
-				[extension]({
-					quality: 70,
-				})
-				.toBuffer();
-		}
+		return sharp(buffer)
+			[extension]({
+				quality: 65,
+			})
+			.toBuffer();
 	}
 
 	private async createMinecraftCanvas(): Promise<Canvas> {

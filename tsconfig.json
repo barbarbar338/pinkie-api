@@ -17,7 +17,6 @@
 		"strictBindCallApply": false,
 		"forceConsistentCasingInFileNames": false,
 		"noFallthroughCasesInSwitch": false,
-		"jsx": "react",
 		"esModuleInterop": true,
 		"typeRoots": ["node_modules/@types", "src/@types"]
 	}

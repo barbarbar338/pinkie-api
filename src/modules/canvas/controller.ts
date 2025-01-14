@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Res } from "@nestjs/common";
+import { Controller, Get, Param, Query, Res } from "@nestjs/common";
 import { Response } from "express";
 import { CanvasService } from "./service";
 
@@ -6,12 +6,12 @@ import { CanvasService } from "./service";
 export class CanvasController {
 	constructor(private readonly canvasService: CanvasService) {}
 
-	@Get("banner")
+	@Get("banner.:extension")
 	getBanner(
+		@Param("extension") extension: string,
 		@Query("message") text: string,
 		@Query("bgColor") bgColor: string,
 		@Query("textColor") textColor: string,
-		@Query("extension") extension: string,
 		@Query("width") width: number,
 		@Query("height") height: number,
 		@Res() res: Response,
@@ -27,12 +27,12 @@ export class CanvasController {
 		);
 	}
 
-	@Get("achievement")
+	@Get("achievement.:extension")
 	getAchievement(
+		@Param("extension") extension: string,
 		@Query("title") title: string,
 		@Query("message") message: string,
 		@Query("icon") icon: string,
-		@Query("extension") extension: string,
 		@Res() res: Response,
 	): Promise<void> {
 		return this.canvasService.createAchievement(
@@ -44,11 +44,11 @@ export class CanvasController {
 		);
 	}
 
-	@Get("overlay")
+	@Get("overlay.:extension")
 	getOverlay(
+		@Param("extension") extension: string,
 		@Query("avatar") avatar: string,
 		@Query("overlay") overlay: string,
-		@Query("extension") extension: string,
 		@Res() res: Response,
 	): Promise<void> {
 		return this.canvasService.createOverlay(
@@ -59,8 +59,9 @@ export class CanvasController {
 		);
 	}
 
-	@Get("rankcard")
+	@Get("rankcard.:extension")
 	getRankCard(
+		@Param("extension") extension: string,
 		@Query("xp") xp: number,
 		@Query("level") level: number,
 		@Query("xpToLevel") xpToLevel: number,
@@ -69,7 +70,6 @@ export class CanvasController {
 		@Query("status") status: string,
 		@Query("tag") tag: string,
 		@Query("color") color: string,
-		@Query("extension") extension: string,
 		@Res() res: Response,
 	): Promise<void> {
 		return this.canvasService.createLevelCard(

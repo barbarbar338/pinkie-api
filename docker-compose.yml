@@ -1,0 +1,11 @@
+services:
+    bhapi:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: unless-stopped
+        environment:
+            - PORT=3000
+            - NODE_ENV=production
+        ports:
+            - 1130:3000

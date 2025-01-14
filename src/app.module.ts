@@ -6,8 +6,6 @@ import { resolve } from "path";
 import { AppController } from "./app.controller";
 import { AsciiModule } from "./modules/ascii/module";
 import { CanvasModule } from "./modules/canvas/module";
-import { DocsModule } from "./modules/docs/module";
-import { SwearModule } from "./modules/swear/module";
 
 @Module({
 	imports: [
@@ -20,9 +18,7 @@ import { SwearModule } from "./modules/swear/module";
 			rootPath: resolve(process.cwd(), "src", "public"),
 		}),
 		AsciiModule,
-		SwearModule,
 		CanvasModule,
-		DocsModule,
 	],
 	controllers: [AppController],
 	providers: [{ provide: APP_GUARD, useClass: RateLimiterGuard }],
